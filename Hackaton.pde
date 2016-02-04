@@ -9,7 +9,7 @@ Node cur;
 ArrayList<Node> histo;
 
 void setup() {
-    size(800, 600, P2D);
+    size(800, 600);
     merri_font = createFont("Merriweather.ttf", 16);
     textFont(merri_font); textSize(16);
     search_input = true;

@@ -1,5 +1,6 @@
 X gérer le premier film non trouvé
-- doublons dans imdb...
+X doublons dans imdb...
+- changer le nom rentré pour le vrai nom du film
 - gérer l'historique
 - clic gauche ou droit direct sur un noeud fils -> preload l'expand suivant
    /!\ ça va foutre le bordel dans le main

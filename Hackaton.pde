@@ -53,6 +53,9 @@ void keyPressed() {
             //on ajoute une valeur dans la string
             root_input = root_input + key;
         }
+    } else if(key == BACKSPACE){
+        search_input = true ;
+        
     }
 }
 

@@ -32,7 +32,7 @@ void keyPressed() {
                 println("Movie '"+root_input+"' was not found :(");
                 return;
             }
-            cur = new Node(width/2, height/2, "film", imdb.getName(idFilm));
+            cur = new Node(width/2, height/2, "film", imdb.getTitle(idFilm));
             search_input = false;
         } else if (key == BACKSPACE) {
             if(root_input.length() > 0){

@@ -23,9 +23,9 @@ class DataManager {
        return id;
    }
    
-   String getName(int idFilm) {
+   String getTitle(int idFilm) {
        return loadJSONObject("https://api.themoviedb.org/3/movie/"
-           +idFilm+"?api_key=2dc10db31d0e0daea621af965984aafd").getString("name");
+           +idFilm+"?api_key=2dc10db31d0e0daea621af965984aafd").getString("title");
    }
    
    String getDirector(int idFilm) {

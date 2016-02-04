@@ -25,10 +25,13 @@ class DataManager {
    
    String getDirector(String film) {
        int idFilm = getId("movie", film);
-       JSONArray query = loadJSONObject("https://api.themoviedb.org/3/movie/"
-           +idFilm+"/credits?api_key=2dc10db31d0e0daea621af965984aafd").getJSONArray("crew");
-       for (int i=0; i<query.size(); i++) {
-           JSONObject person = query.getJSONObject(i);
+       if (idFilm == -1)
+           return "";
+       JSONObject query = loadJSONObject("https://api.themoviedb.org/3/movie/"
+           +idFilm+"/credits?api_key=2dc10db31d0e0daea621af965984aafd");
+       JSONArray crew = query.getJSONArray("crew");
+       for (int i=0; i<crew.size(); i++) {
+           JSONObject person = crew.getJSONObject(i);
            if (person.getString("job").equals("Director"))
                return person.getString("name");
        }
@@ -46,9 +49,13 @@ class DataManager {
            role = "cast";
        String person = value;
        if (nodeType.equals("film"))
-           person = getDirector(value);
+           person = getDirector(value); // possible startpoint
        // API communication
        ArrayList<String> ret = new ArrayList<String>();
+       if (person.equals("")) {
+           println("Movie '"+value+"' was not found :("); // director not found so...
+           return ret;
+       }
        int idPerson = getId("person", person);
        JSONObject query = loadJSONObject("https://api.themoviedb.org/3/person/"
            +idPerson+"/movie_credits?api_key=2dc10db31d0e0daea621af965984aafd");
@@ -102,7 +109,11 @@ class DataManager {
            }
            break;
        case "film": // actors + director
-           int idFilm = getId("movie", value);
+           int idFilm = getId("movie", value); // possible startpoint
+           if (idFilm == -1) {
+               println("Movie '"+value+"' was not found :(");
+               return persons;
+           }
            JSONObject query = loadJSONObject("https://api.themoviedb.org/3/movie/"
                +idFilm+"/credits?api_key=2dc10db31d0e0daea621af965984aafd");
            JSONArray crew = query.getJSONArray("crew");

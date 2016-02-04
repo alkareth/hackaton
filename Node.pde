@@ -15,6 +15,13 @@ class Node {
         ellipse(x, y, 50, 50);
         fill(0);
         text(value , x-35, y-35);
+        if (!sons.isEmpty())
+            for (Node n : cur.sons) {
+                strokeWeight(1);
+                line(cur.x, cur.y, n.x, n.y);
+                strokeWeight(10);
+                n.display();
+            }
     }
     
     void requestSons(String typeA){

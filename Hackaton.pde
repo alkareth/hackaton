@@ -21,31 +21,18 @@ void setup() {
 }
 
 void draw(){
-    background(100);
     if (search_input) {
+        background(100);
         text(root_input, 10, 30);
     } else {
         cur.display();
-        if (!expanded){
-            
-            if(cur.x> width/2) cur.x-=1;
-            else{ cur.x+=1;}
-            if(cur.y< height/2) cur.y+=1;
-        } else {
-            for (Node n : cur.sons) {
-                strokeWeight(1);
-                line(cur.x, cur.y, n.x, n.y);
-                strokeWeight(10);
-                n.display();
-            }
-        }
     }
 }
 
 void keyPressed() {
     if (search_input) { // cas quand on est dans la recherche
         if (key == ENTER) {
-            cur = new Node(250, 375, "film", root_input);
+            cur = new Node(width/2, height/2, "film", root_input);
             search_input = false;
         } else if (key == BACKSPACE) {
             if(root_input.length() > 0)

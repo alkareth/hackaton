@@ -23,10 +23,7 @@ class DataManager {
        return id;
    }
    
-   String getDirector(String film) {
-       int idFilm = getId("movie", film);
-       if (idFilm == -1)
-           return "";
+   String getDirector(int idFilm) {
        JSONObject query = loadJSONObject("https://api.themoviedb.org/3/movie/"
            +idFilm+"/credits?api_key=2dc10db31d0e0daea621af965984aafd");
        JSONArray crew = query.getJSONArray("crew");
@@ -44,18 +41,21 @@ class DataManager {
        // case "film": films by the same director
        if (knownFilms.containsKey(nodeType+value))
            return knownFilms.get(nodeType+value);
+       ArrayList<String> ret = new ArrayList<String>();
        String role = "crew";
        if (nodeType.equals("actor"))
            role = "cast";
+       int id = -1;
        String person = value;
-       if (nodeType.equals("film"))
-           person = getDirector(value); // possible startpoint
-       // API communication
-       ArrayList<String> ret = new ArrayList<String>();
-       if (person.equals("")) {
-           println("Movie '"+value+"' was not found :("); // director not found so...
-           return ret;
+       if (nodeType.equals("film")) {
+           id = getId("movie", value);
+           if (id == -1) { // search failed :/
+               println("Movie '"+value+"' was not found :(");
+               return ret;
+           }
+           person = getDirector(id); // possible startpoint
        }
+       // API communication
        int idPerson = getId("person", person);
        JSONObject query = loadJSONObject("https://api.themoviedb.org/3/person/"
            +idPerson+"/movie_credits?api_key=2dc10db31d0e0daea621af965984aafd");
@@ -64,6 +64,8 @@ class DataManager {
            if (ret.size() >= 8)
                break;
            JSONObject film = films.getJSONObject(i);
+           if (nodeType.equals("film") && film.getInt("id") == id)
+               continue;
            if ( role.equals("cast") ||
                    (role.equals("crew") && film.getString("job").equals("Director")) )
                ret.add(film.getString("title"));
@@ -87,6 +89,8 @@ class DataManager {
                    +id+"/credits?api_key=2dc10db31d0e0daea621af965984aafd").getJSONArray("cast");
                for (int i=0; i<query.size(); i++) {
                    JSONObject person = query.getJSONObject(i);
+                   if (nodeType.equals("actor") && person.getString("name").equals(value))
+                       continue;
                    int nb_occ = 1;
                    if (actors.containsKey(person.getString("name")))
                        nb_occ += actors.get(person.getString("name"));

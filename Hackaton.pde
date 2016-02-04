@@ -1,3 +1,4 @@
+PFont merri_font;
 DataManager imdb;
 String root_input = "";
 boolean new_char;
@@ -9,6 +10,8 @@ ArrayList<Node> histo;
 
 void setup() {
     size(800, 600, P2D);
+    merri_font = createFont("Merriweather.ttf", 16);
+    textFont(merri_font); textSize(16);
     search_input = true;
     new_char = false;
     delete_char = false;
@@ -20,7 +23,6 @@ void setup() {
 void draw(){
     background(100);
     if (search_input) {
-        textSize(32);
         text(root_input, 10, 30);
     } else {
         cur.display();

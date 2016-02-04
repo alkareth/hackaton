@@ -2,13 +2,11 @@ class Node {
   
     float x, y;
     String type, value;
-    PFont f;
     ArrayList<Node> sons;
 
     Node(float x_, float y_, String type_, String l_){    
         x = x_; y = y_; type = type_; value = l_;
         sons= new ArrayList<Node>();
-        f = createFont("Merriweather.ttf", 12);
     }
 
     void display(){

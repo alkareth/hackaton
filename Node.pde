@@ -18,7 +18,7 @@ class Node {
     }
     
     void requestSons(String typeA){
-        switch(typeA) {
+        switch(typeA) {//différencier les 3 cas des noeuds pour pouvoir gerer la couleur des ronds
         case "film":
             int i=0;
             for (String s : imdb.getFilms(type, value)) {

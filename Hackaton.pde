@@ -27,9 +27,10 @@ void draw(){
     } else {
         cur.display();
         if (!expanded){
-            if(cur.x> 250) cur.x-=1;
+            
+            if(cur.x> width/2) cur.x-=1;
             else{ cur.x+=1;}
-            if(cur.y< 375) cur.y+=1;
+            if(cur.y< height/2) cur.y+=1;
         } else {
             for (Node n : cur.sons) {
                 strokeWeight(1);
@@ -42,7 +43,7 @@ void draw(){
 }
 
 void keyPressed() {
-    if (search_input) {
+    if (search_input) { // cas quand on est dans la recherche
         if (key == ENTER) {
             cur = new Node(250, 375, "film", root_input);
             search_input = false;
@@ -53,9 +54,14 @@ void keyPressed() {
             //on ajoute une valeur dans la string
             root_input = root_input + key;
         }
-    } else if(key == BACKSPACE){
-        search_input = true ;
-        
+    } else if(key == BACKSPACE){ // quand on parcours l'arbre si on appuie sur backspace on reprend l'historique sauf si il est vide
+        if(histo.isEmpty()){ //si l'historique est vide on reviens juste a la page d'avant
+            search_input = true ;
+        }else{//on doit prendre le dernier noeud de l'historique pour le passer en noeud courant
+           // et supprimer le dernier élément de la liste de l'histo
+           cur = histo.get(histo.size()-1) ;
+           histo.remove(histo.size()-1) ;
+        }      
     }
 }
 

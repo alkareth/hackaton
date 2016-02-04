@@ -27,7 +27,12 @@ void draw(){
 void keyPressed() {
     if (search_input) { // cas quand on est dans la recherche
         if (key == ENTER) {
-            cur = new Node(width/2, height/2, "film", root_input);
+            int idFilm = imdb.getId("movie", root_input);
+            if (idFilm == -1) {
+                println("Movie '"+root_input+"' was not found :(");
+                return;
+            }
+            cur = new Node(width/2, height/2, "film", imdb.getName(idFilm));
             search_input = false;
         } else if (key == BACKSPACE) {
             if(root_input.length() > 0){

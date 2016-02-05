@@ -1,3 +1,4 @@
+int xoffset, yoffset;
 PFont merri_font;
 DataManager imdb;
 String root_input;
@@ -7,6 +8,8 @@ ArrayList<Node> histo;
 
 void setup() {
     size(800, 600);
+    xoffset = width/2;
+    yoffset = 4*height/5;
     merri_font = createFont("Merriweather.ttf", 16);
     textFont(merri_font); textSize(16);
     imdb = new DataManager();
@@ -16,8 +19,9 @@ void setup() {
 }
 
 void draw(){
+    background(100);
+    translate(xoffset, yoffset);
     if (search_input) {
-        background(100);
         text(root_input, 10, 30);
     } else { // la on est dans le graphe
         cur.display();
@@ -32,7 +36,7 @@ void keyPressed() {
                 println("Movie '"+root_input+"' was not found :(");
                 return;
             }
-            cur = new Node(width/2, height/2, "film", imdb.getTitle(idFilm));
+            cur = new Node(0, 0, "film", imdb.getTitle(idFilm));
             search_input = false;
         } else if (key == BACKSPACE) {
             if(root_input.length() > 0){
@@ -59,8 +63,10 @@ void mouseClicked(){
     if (!search_input) {
         if (!cur.sons.isEmpty()) {
             // vérifier qu'on clique sur un fils de cur
-            Node clicked = cur.sonClicked(mouseX, mouseY); 
+            Node clicked = cur.sonClicked(mouseX-xoffset, mouseY-yoffset); 
             if (clicked != null) { // si oui, màj histo et translation
+                xoffset += cur.x - clicked.x;
+                yoffset += cur.y - clicked.y;
                 histo.add(cur);
                 cur = clicked;
                 // translate blablabla...

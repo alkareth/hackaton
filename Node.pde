@@ -47,7 +47,7 @@ class Node {
     }
     
     boolean hover() {
-        return dist(mouseX, mouseY, x, y) <= 25;
+        return dist(mouseX-xoffset, mouseY-yoffset, x, y) <= 25;
     }
     
     void grow(){
@@ -55,6 +55,7 @@ class Node {
     }
     
     void requestSons(String typeA){
+        sons = new ArrayList<Node>();
         switch(typeA) {//différencier les 3 cas des noeuds pour pouvoir gerer la couleur des ronds
         case "film":
             int i=0;
@@ -80,11 +81,11 @@ class Node {
         }
     }
     float getSonX(int i) {
-       return x + cos((-i)*PI/8) * (150+(i%2)*50);
+       return x + cos((-i)*PI/8) * (300+(i%2)*75);
     }
 
     float getSonY(int i) {
-       return y + sin((-i)*PI/8) * (150+(i%2)*50);
+       return y + sin((-i)*PI/8) * (300+(i%2)*75);
     }
     
     Node sonClicked(float x1, float y1) {

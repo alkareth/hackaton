@@ -20,12 +20,13 @@ void setup() {
 }
 
 void draw(){
-    background(#94889B);
+    background(#8C80A2);
     translate(xoffset, yoffset);
     if (search_input) {
-        fill(15);
+        fill(0);
         textSize(35);
         text(titre, -175, 0);
+        fill(75);
         text(root_input, -20, 50);
         textSize(16);
     } else { // la on est dans le graphe
@@ -39,10 +40,12 @@ void keyPressed() {
             int idFilm = imdb.getId("movie", root_input);
             if (idFilm == -1) {
                 println("Movie '"+root_input+"' was not found :(");
+               
                 return;
+            } else {
+              cur = new Node(0, 0, "film", imdb.getTitle(idFilm));
+              search_input = false;
             }
-            cur = new Node(0, 0, "film", imdb.getTitle(idFilm));
-            search_input = false;
         } else if (key == BACKSPACE) {
             if(root_input.length() > 0){
                 if(histo.isEmpty())

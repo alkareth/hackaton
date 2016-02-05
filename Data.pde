@@ -59,6 +59,10 @@ class DataManager {
                return ret;
            }
            person = getDirector(id); // possible startpoint
+           if (person.equals("")) { // search failed :/
+               println("Movie '"+value+"' has no director 0_o");
+               return ret;
+           }
        }
        // API communication
        int idPerson = getId("person", person);
@@ -125,19 +129,19 @@ class DataManager {
            }
            JSONObject query = loadJSONObject("https://api.themoviedb.org/3/movie/"
                +idFilm+"/credits?api_key=2dc10db31d0e0daea621af965984aafd");
-           JSONArray cast = query.getJSONArray("cast");
-           for (int i=0; i<cast.size(); i++) {
-               if (persons.size() >= 8)
-                   break;
-               persons.add(cast.getJSONObject(i).getString("name"));
-           }
            JSONArray crew = query.getJSONArray("crew");
-           for (int i=0; i<query.size(); i++) {
+           for (int i=0; i<crew.size(); i++) {
                JSONObject person = crew.getJSONObject(i);
                if (person.getString("job").equals("Director")) {
                    persons.add(person.getString("name"));
                    break;
                }
+           }
+           JSONArray cast = query.getJSONArray("cast");
+           for (int i=0; i<cast.size(); i++) {
+               if (persons.size() >= 8)
+                   break;
+               persons.add(cast.getJSONObject(i).getString("name"));
            }
        }
        knownPersons.put(nodeType+value, persons);

@@ -50,7 +50,7 @@ class Node {
                 n.display();
             }
         if (hover()) fill(hcol);
-        else fill (255);
+        else fill (#D1C9E0);
         strokeWeight(8);
         stroke(border);
         if(hover()) size=60;
@@ -59,6 +59,7 @@ class Node {
         noFill();
         strokeWeight(2);
         stroke(45);
+        if (hover()) stroke(220);
         ellipse(x, y, size-5, size-5);
         if(hover()) fill(220);
         else fill(0);

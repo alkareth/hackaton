@@ -38,7 +38,7 @@ void draw(){
     translate(xoffset, yoffset);
     textSize(14);
     fill(85);
-    String legende = "Clic gauche : films liés      Clic droit : artistes liés";
+    String legende = "Clic gauche : films liés        Clic droit : artistes liés";
     text(legende, -textWidth(legende)/2, 100);
     if (search_input) {
         fill(0);
@@ -48,7 +48,7 @@ void draw(){
         noFill();
         stroke(75);
         rect(-width/4, 0, width/2, 60, 5);
-        fill(85);
+        fill(220);
         text(root_input, -textWidth(root_input)/2, 40);
         textSize(16);
     } else { // la on est dans le graphe

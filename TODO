@@ -1,8 +1,13 @@
 X gérer le premier film non trouvé
 X doublons dans imdb...
-- changer le nom rentré pour le vrai nom du film
-- gérer l'historique
-- clic gauche ou droit direct sur un noeud fils -> preload l'expand suivant
+X changer le nom rentré pour le vrai nom du film
+X clic gauche ou droit direct sur un noeud fils -> preload l'expand suivant
    /!\ ça va foutre le bordel dans le main
-- desaïgne (Node.display et d'autres trucs)
+X gérer l'historique
+
+- DESIGN (Node.display et d'autres trucs)
+	couleurs, dessins, à corréler avec l'interface web
+	animations et transitions
+	(stockage du node précédent ?...)
 - embedding web
+- bug des réals... à voir

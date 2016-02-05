@@ -21,6 +21,7 @@ void setup() {
 
 void draw(){
     background(#8C80A2);
+    println("je suis dans la boucle") ;
     translate(xoffset, yoffset);
     if (search_input) {
         fill(0);

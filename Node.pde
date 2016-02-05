@@ -1,13 +1,12 @@
 class Node {
   
-    float x, y;
-    int dist, reverse;
+    float x, y, xoff, yoff;
     String type, value;
     color hcol, border;
     ArrayList<Node> sons;
 
     Node(float x_, float y_, String type_, String l_){    
-        x = x_; y = y_; type = type_; value = l_; dist= 1; reverse= 1;
+        x = x_; y = y_; type = type_; value = l_; xoff= 0.0; yoff= 0.0;
         switch(type){
         case "film":
             hcol = color(#FCCC63);
@@ -37,7 +36,7 @@ class Node {
                 n.display();
             }
         if (hover()) fill(hcol);
-        else fill (200);
+        else fill (240);
         strokeWeight(8);
         stroke(border);
         ellipse(x, y, 50, 50);
@@ -50,9 +49,6 @@ class Node {
         return dist(mouseX-xoffset, mouseY-yoffset, x, y) <= 25;
     }
     
-    void grow(){
-     if (dist <= 150) dist++; 
-    }
     
     void requestSons(String typeA){
         sons = new ArrayList<Node>();

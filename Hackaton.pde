@@ -1,19 +1,18 @@
 int xoffset, yoffset;
 PFont merri_font;
 DataManager imdb;
-String root_input, titre;
+String root_input;
 boolean search_input;
 Node cur;
 ArrayList<Node> histo;
 
 void setup() {
-    size(800, 600);
+    fullScreen();
     xoffset = width/2;
     yoffset = 4*height/5;
     merri_font = createFont("Merriweather.ttf", 35);
     textFont(merri_font); textSize(16);
     imdb = new DataManager();
-    titre= "Entrez le nom d'un film :";
     root_input = "";
     search_input = true;
     histo = new ArrayList<Node>();
@@ -25,9 +24,13 @@ void draw(){
     if (search_input) {
         fill(0);
         textSize(35);
-        text(titre, -175, 0);
-        fill(75);
-        text(root_input, -175, 40);
+        String prompt = "Mais si, tu sais, ce film...";
+        text(prompt, -textWidth(prompt)/2, -40);
+        noFill();
+        stroke(75);
+        rect(-width/4, 0, width/2, 60, 5);
+        fill(85);
+        text(root_input, -textWidth(root_input)/2, 40);
         textSize(16);
     } else { // la on est dans le graphe
         cur.display();

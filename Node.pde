@@ -21,7 +21,7 @@ class Node {
             hcol = color(#CEDBFF);
             border= color(#6081D8);
             break;             
-       }
+        }
         sons= new ArrayList<Node>();
     }
 
@@ -84,7 +84,7 @@ class Node {
             if (type.equals("film")) {
                 ArrayList<String> persons = imdb.getPersons(type, value);
                 for (int j=0; j<persons.size(); j++) {
-                    if(j==persons.size()-1) sons.add(new Node(getSonX(j), getSonY(j), "director", persons.get(j)));
+                    if(j==0) sons.add(new Node(getSonX(j), getSonY(j), "director", persons.get(j)));
                     else sons.add(new Node(getSonX(j), getSonY(j), "actor", persons.get(j)));
                 }
             } else {

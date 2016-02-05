@@ -1,12 +1,14 @@
 class Node {
   
-    float x, y, xoff, yoff;
+    float x, y, xbuf, ybuf;
     int size;
     String type, value;
     color hcol, border;
+    boolean dispsons;
     ArrayList<Node> sons;
 
-    Node(float x_, float y_, String type_, String l_){    
+    Node(float x_, float y_, float xb, float yb, String type_, String l_) {
+        xbuf = xb; ybuf = yb;
         x = x_; y = y_; type = type_; value = l_; size=50;
         switch(type){
         case "film":
@@ -22,12 +24,23 @@ class Node {
             border= color(#6081D8);
             break;             
         }
+        dispsons = false;
         sons= new ArrayList<Node>();
     }
 
     void display(){
-        
-        if (!sons.isEmpty())
+        float delta;
+        if (abs(xbuf) >= 1) {
+            delta = xbuf/10;
+            x += delta;
+            xbuf -= delta;
+        } else { xbuf = 0; }
+        if (abs(ybuf) >= 1) {
+            delta = ybuf/10;
+            y += delta;
+            ybuf -= delta;
+        } else { ybuf = 0; }
+        if (!sons.isEmpty() && dispsons)
             for (Node n : cur.sons) {
                 strokeWeight(1);
                 if(n.hover()) { stroke(220);}
@@ -36,7 +49,6 @@ class Node {
                 strokeWeight(10);
                 n.display();
             }
-        
         if (hover()) fill(hcol);
         else fill (255);
         strokeWeight(8);
@@ -50,7 +62,13 @@ class Node {
         ellipse(x, y, size-5, size-5);
         if(hover()) fill(220);
         else fill(0);
-        text(value , x-35, y-35);
+        float yoff = y+70;
+        textSize(35);
+        if (this != cur) {
+            yoff = y-40;
+            textSize(18);
+        }
+        text(value , x-textWidth(value)/2, yoff);
     }
     
     //void move(){
@@ -72,36 +90,31 @@ class Node {
     
     void requestSons(String typeA){
         sons = new ArrayList<Node>();
+        int i, n;
         switch(typeA) {//différencier les 3 cas des noeuds pour pouvoir gerer la couleur des ronds
         case "film":
-            int i=0;
-            for (String s : imdb.getFilms(type, value)) {
-                sons.add(new Node(getSonX(i), getSonY(i), "film", s));
-                i++;
+            ArrayList<String> films = imdb.getFilms(type, value);
+            n = films.size();
+            for (i=0; i<n; i++) {
+                sons.add(new Node(x, y, getSonX(i, n)-x, getSonY(i, n)-y, "film", films.get(i)));
             }
             break;
         case "person": 
-            if (type.equals("film")) {
-                ArrayList<String> persons = imdb.getPersons(type, value);
-                for (int j=0; j<persons.size(); j++) {
-                    if(j==0) sons.add(new Node(getSonX(j), getSonY(j), "director", persons.get(j)));
-                    else sons.add(new Node(getSonX(j), getSonY(j), "actor", persons.get(j)));
-                }
-            } else {
-                int k=0;
-                for (String s : imdb.getPersons(type, value)) {
-                    sons.add(new Node(getSonX(k), getSonY(k), "actor", s));
-                    k++;
-                }
-            } 
+            ArrayList<String> persons = imdb.getPersons(type, value);
+            n = persons.size();
+            for (i=0; i<n; i++) {
+                if (i==0 && type.equals("film")) sons.add(new Node(x, y, getSonX(i, n)-x, getSonY(i, n)-y, "director", persons.get(i)));
+                else sons.add(new Node(x, y, getSonX(i, n)-x, getSonY(i, n)-y, "actor", persons.get(i)));
+            }
         }
     }
-    float getSonX(int i) {
-       return x + cos((-i)*PI/8) * (300+(i%2)*75);
+    float getSonX(int i, int n) {
+       float theta = (float)(-i) - 0.5;
+       return x + cos(theta*PI/n) * (2*height/3-random(90));
     }
-
-    float getSonY(int i) {
-       return y + sin((-i)*PI/8) * (300+(i%2)*75);
+    float getSonY(int i, int n) {
+       float theta = (float)(-i) - 0.5;
+       return y + sin(theta*PI/n) * (2*height/3-random(90));
     }
     
     Node sonClicked(float x1, float y1) {

@@ -143,7 +143,6 @@ class DataManager {
                    break;
                persons.add(cast.getJSONObject(i).getString("name"));
            }
-           for (String s: persons) println(s);
        }
        knownPersons.put(nodeType+value, persons);
        return persons;
